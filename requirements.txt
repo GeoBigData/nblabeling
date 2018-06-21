@@ -1,0 +1,8 @@
+matplotlib
+shapely
+gbdxtools
+numpy
+scikit-image
+rasterio=0.36.0
+ipywidgets
+IPython
