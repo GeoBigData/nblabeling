@@ -379,7 +379,9 @@ class LabelWidget(object):
         self.pixel_buffer = pixel_buffer
 
         self.__create_vote_buttons__()
-        self.buttons = self.__add_button_callback__(self.__catch_vote_and_advance__)
+        self.buttons = self.__add_button_callback__(['Yes', 'No', 'Skip'], self.__catch_vote_and_advance__)
+        self.buttons = self.__add_button_callback__(['Back'], self.__back__)
+        self.buttons = self.__add_button_callback__(['Reset All'], self.__reset__)
 
     def add_data(self, label_data):
 
@@ -406,7 +408,9 @@ class LabelWidget(object):
         button_yes = widgets.Button(description='Yes')
         button_no = widgets.Button(description='No')
         button_skip = widgets.Button(description='Skip')
-        self.buttons = HBox([button_yes, button_no, button_skip])
+        button_back = widgets.Button(description='Back')
+        button_reset = widgets.Button(description='Clear All')
+        self.buttons = HBox([button_yes, button_no, button_skip, button_back, button_reset])
 
     def initialize_voting(self):
 
@@ -466,8 +470,35 @@ class LabelWidget(object):
         self.__display_feature__(next_segment)
         display.display(self.buttons)
 
-    def __add_button_callback__(self, callback):
+    def __back__(self, b):
+
+        # decrement the tally
+        self.tally += 1
+
+        # change the feature label back to none
+        previous_segment = self.label_data[self.tally]
+        previous_segment.set_label_value(None)
+
+        # otherwise, advance to the next feature
+        display.clear_output(wait=True)
+        self.__display_feature__(previous_segment)
+        display.display(self.buttons)
+
+    def __reset_all__(self, b):
+
+        # decrement the tally
+        self.tally = 0
+
+        # reset all of hte values
+        for d in self.label_data:
+            d.set_label_value(None)
+
+        self.initialize_voting()
+
+
+    def __add_button_callback__(self, descriptions, callback):
         for b in self.buttons.children:
-            b.on_click(callback)
+            if b.description in descriptions:
+                b.on_click(callback)
 
         return self.buttons
