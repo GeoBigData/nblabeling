@@ -366,7 +366,7 @@ class LabelData(object):
 
 
 class LabelWidget(object):
-    def __init__(self, text="Is this a feature of interest?", figsize=(20, 20), shuffled=False):
+    def __init__(self, text="Is this a feature of interest?", figsize=(20, 20), shuffled=False, show_src_img=False):
 
         self.text = text
         self.figsize = figsize
@@ -374,6 +374,7 @@ class LabelWidget(object):
         self.tally = 0
         self.results = []
         self.shuffled = shuffled
+        self.show_src_img = show_src_img
 
         self.__create_vote_buttons__()
         self.buttons = self.__add_button_callback__(self.__catch_vote_and_advance__)
@@ -413,7 +414,12 @@ class LabelWidget(object):
 
     def __display_feature__(self, feature):
         sp = plt.figure(figsize=self.figsize)
-        self.__plot_array__(feature.mark_boundaries(), (1, 1, 1), title=self.text)
+        if self.show_src_img is True:
+            self.__plot_array__(feature.mark_boundaries(), (1, 2, 1), title=self.text)
+            self.__plot_array__(feature.rgb(), (1, 2, 2), title='Source Image')
+        else:
+            self.__plot_array__(feature.mark_boundaries(), (1, 1, 1), title=self.text)
+
         _ = plt.plot()
         status_msg = "Labeled {tally} out of {total} features.".format(tally=self.tally,
                                                                        total=len(self.label_data))
