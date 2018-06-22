@@ -463,6 +463,10 @@ class LabelWidget(object):
         # exit if no features remain
         if self.tally == len(self.label_data):
             b.close_all()
+            display.clear_output(wait=True)
+            print("All data has been labeled!")
+            return
+
 
         # otherwise, advance to the next feature
         display.clear_output(wait=True)

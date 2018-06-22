@@ -27,8 +27,8 @@
       <file leaf-file-name="label.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nblabeling/label.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="233">
-              <caret line="175" column="31" lean-forward="false" selection-start-line="175" selection-start-column="31" selection-end-line="175" selection-end-column="31" />
+            <state relative-caret-position="230">
+              <caret line="464" column="25" lean-forward="true" selection-start-line="464" selection-start-column="25" selection-end-line="464" selection-end-column="25" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -254,8 +254,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/nblabeling/label.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="175" column="31" lean-forward="false" selection-start-line="175" selection-start-column="31" selection-end-line="175" selection-end-column="31" />
+        <state relative-caret-position="230">
+          <caret line="464" column="25" lean-forward="true" selection-start-line="464" selection-start-column="25" selection-end-line="464" selection-end-column="25" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
