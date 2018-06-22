@@ -567,7 +567,7 @@ class LabelWidget(object):
         if self.tally == len(self.label_data):
             b.close_all()
             display.clear_output(wait=True)
-            print("All data has been labeled!")
+            print("All data have been labeled!")
             return
 
 
