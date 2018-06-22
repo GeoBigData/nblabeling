@@ -40,6 +40,39 @@ def from_geojson(source):
     return geometries, feats
 
 
+def create_chip_boundaries(img, tile_size_pixels, overlap_pixels=0, mask_geom=None):
+    tile_size_degrees = tile_size_pixels * img.affine.a
+    overlap_degrees = overlap_pixels * img.affine.a
+
+    xmin, ymin, xmax, ymax = img.bounds
+
+    xcoords = np.arange(xmin, xmax + tile_size_degrees, tile_size_degrees - 2 * overlap_degrees)
+    ycoords = np.arange(ymin, ymax + tile_size_degrees, tile_size_degrees - 2 * overlap_degrees)
+
+    xmins = xcoords[0:-1]
+    xmaxs = xcoords[1:]
+    ymins = ycoords[0:-1]
+    ymaxs = ycoords[1:]
+
+    xpairs = np.column_stack([xmins, xmaxs])
+    ypairs = np.column_stack([ymins, ymaxs])
+    # add the overlap
+    xpairs = xpairs + np.array([-overlap_degrees, overlap_degrees])[None, :] + overlap_degrees
+    ypairs = ypairs + np.array([-overlap_degrees, overlap_degrees])[None, :] + overlap_degrees
+
+    chip_bounds = []
+    for xx in xpairs:
+        for yy in ypairs:
+            chip_bounds.append([xx[0], yy[0], xx[1], yy[1]])
+
+    chip_geoms = [box(*tb) for tb in chip_bounds if box(*tb).intersects(box(*img.bounds))]
+
+    if mask_geom is not None:
+        chip_geoms = [g for g in chip_geoms if g.intersects(mask_geom)]
+
+    return chip_geoms
+
+
 class LabelSegment(object):
     def __init__(self, regionprops, image, segmented_image):
 
