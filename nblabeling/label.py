@@ -381,7 +381,7 @@ class LabelWidget(object):
         self.__create_vote_buttons__()
         self.buttons = self.__add_button_callback__(['Yes', 'No', 'Skip'], self.__catch_vote_and_advance__)
         self.buttons = self.__add_button_callback__(['Back'], self.__back__)
-        self.buttons = self.__add_button_callback__(['Reset All'], self.__reset__)
+        self.buttons = self.__add_button_callback__(['Clear All'], self.__reset__)
 
     def add_data(self, label_data):
 
@@ -484,7 +484,7 @@ class LabelWidget(object):
         self.__display_feature__(previous_segment)
         display.display(self.buttons)
 
-    def __reset_all__(self, b):
+    def __reset__(self, b):
 
         # decrement the tally
         self.tally = 0
@@ -494,7 +494,6 @@ class LabelWidget(object):
             d.set_label_value(None)
 
         self.initialize_voting()
-
 
     def __add_button_callback__(self, descriptions, callback):
         for b in self.buttons.children:
