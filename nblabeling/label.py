@@ -135,7 +135,7 @@ class LabelSegment(object):
 
     def to_veda(self, pixel_buffer):
         geom = self.__to_polygon__()
-        return (geom, self._window(pixel_buffer))
+        return (self._window(pixel_buffer), geom)
 
 
 class LabelPolygon(LabelSegment):
@@ -173,7 +173,7 @@ class LabelPolygon(LabelSegment):
         return geom_array
 
     def to_veda(self, pixel_buffer):
-        return (self.geom, self._window(pixel_buffer))
+        return (self._window(pixel_buffer), self.geom)
 
 
 class LabelData(object):

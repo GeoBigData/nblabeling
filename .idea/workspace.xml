@@ -27,8 +27,8 @@
       <file leaf-file-name="label.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nblabeling/label.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="479" column="42" lean-forward="false" selection-start-line="479" selection-start-column="42" selection-end-line="479" selection-end-column="42" />
+            <state relative-caret-position="233">
+              <caret line="175" column="31" lean-forward="false" selection-start-line="175" selection-start-column="31" selection-end-line="175" selection-end-column="31" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -57,6 +57,8 @@
       <find>pixel_buffer</find>
       <find>mark_boundaries</find>
       <find>buffered_bbox</find>
+      <find>features_to_veda</find>
+      <find>to_veda</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -252,8 +254,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/nblabeling/label.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="479" column="42" lean-forward="false" selection-start-line="479" selection-start-column="42" selection-end-line="479" selection-end-column="42" />
+        <state relative-caret-position="233">
+          <caret line="175" column="31" lean-forward="false" selection-start-line="175" selection-start-column="31" selection-end-line="175" selection-end-column="31" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
