@@ -77,7 +77,7 @@ class LabelSegment(object):
 
         row_start, row_stop, col_start, col_stop = self.buffered_bbox(pixel_buffer)
 
-        return self.image.rgb(blm=blm)[row_start:row_stop, col_start:col_stop]
+        return self.image[row_start:row_stop, col_start:col_stop].baselayermatch(blm=blm)
 
     def pan(self, pixel_buffer=50, equalize_histogram=True):
 
