@@ -11,6 +11,8 @@ import requests
 import json
 import os
 from gbdxtools import CatalogImage
+import pandas as pd
+
 
 def plot_array(array, subplot_ijk, title="", font_size=18, cmap=None):
     sp = plt.subplot(*subplot_ijk)
@@ -434,19 +436,19 @@ class LabelData(object):
         with open(filename, 'r') as f:
             in_features = json.loads(f.read())
 
-        catids = list(set([feat['properties']['catalog_id'] for feat in in_features]))
+        catids = list(pd.unique([feat['properties']['catalog_id'] for feat in in_features]))
         if len(catids) > 1:
             raise ValueError("Input geojson references multiple catalog_ids")
         else:
             catid = catids[0]
 
-        bboxes = list(set([feat['properties']['bbox'] for feat in in_features]))
+        bboxes = list(pd.unique([feat['properties']['bbox'] for feat in in_features]))
         if len(bboxes) > 1:
             raise ValueError("Input geojson references multiple bboxes")
         else:
             bbox = bboxes[0]
 
-        options_list = list(set([feat['properties']['img_options'] for feat in in_features]))
+        options_list = list(pd.unique([feat['properties']['img_options'] for feat in in_features]))
         if len(options_list) > 1:
             raise ValueError("Input geojson references multiple img_options")
         else:

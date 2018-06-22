@@ -6,3 +6,4 @@ scikit-image
 rasterio
 ipywidgets
 IPython
+pandas as pd
