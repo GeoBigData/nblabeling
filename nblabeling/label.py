@@ -377,7 +377,7 @@ class LabelData(object):
 
     def __populate__(self):
 
-        if self.features is None or self.images is None:
+        if self.features is None or self.image is None:
             return
 
         if self.feature_type == 'label_array':
