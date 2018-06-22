@@ -434,19 +434,19 @@ class LabelData(object):
         with open(filename, 'r') as f:
             in_features = json.loads(f.read())
 
-        catids = list(set([feat['properties']['catalog_id'] for feat in features]))
+        catids = list(set([feat['properties']['catalog_id'] for feat in in_features]))
         if len(catids) > 0:
             raise ValueError("Input geojson references multiple catalog_ids")
         else:
             catid = catids[0]
 
-        bboxes = list(set([feat['properties']['bbox'] for feat in features]))
+        bboxes = list(set([feat['properties']['bbox'] for feat in in_features]))
         if len(bboxes) > 0:
             raise ValueError("Input geojson references multiple bboxes")
         else:
             bbox = bboxes[0]
 
-        options_list = list(set([feat['properties']['img_options'] for feat in features]))
+        options_list = list(set([feat['properties']['img_options'] for feat in in_features]))
         if len(options_list) > 0:
             raise ValueError("Input geojson references multiple img_options")
         else:
