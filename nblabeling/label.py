@@ -10,7 +10,7 @@ import numpy as np
 import requests
 import json
 import os
-
+from gbdxtools import CatalogImage
 
 def plot_array(array, subplot_ijk, title="", font_size=18, cmap=None):
     sp = plt.subplot(*subplot_ijk)
@@ -137,6 +137,18 @@ class LabelSegment(object):
         geom = self.__to_polygon__()
         return (self._window(pixel_buffer), geom)
 
+    def __as_geojson__(self):
+        d = {'geometry': self.__to_polygon__().__geo_interface__,
+             'properties': {'catalog_id': self.catid,
+                            'bbox': self.image.bounds,
+                            'label_value': self.label_value
+                            'id': self.id,
+                            'img_options': dict(self.image.options)}
+             }
+
+        return d
+
+
 
 class LabelPolygon(LabelSegment):
     def __init__(self, geom, id, image):
@@ -175,9 +187,12 @@ class LabelPolygon(LabelSegment):
     def to_veda(self, pixel_buffer):
         return (self._window(pixel_buffer), self.geom)
 
+    def __to_polygon__(self):
+        return self.geom
+
 
 class LabelData(object):
-    def __init__(self, features, image, description):
+    def __init__(self, features=None, image=None, description=None):
 
         self.features = features
         self.image = image
@@ -216,6 +231,9 @@ class LabelData(object):
 
     def __validate_features__(self):
 
+        if self.features is None:
+            return
+
         # validate that features is of the correct type
         is_polygon_list = False
         is_label_array = False
@@ -244,10 +262,16 @@ class LabelData(object):
 
     def __validate_image__(self):
 
+        if self.features is None:
+            return
+
         if hasattr(self.image, 'ipe') is False:
             raise TypeError("One or more input images are not gbdxtools Image objects")
 
     def __validate_description__(self):
+
+        if self.features is None:
+            return
 
         if type(self.description) != str:
             raise TypeError("Input label must be of type string")
@@ -353,6 +377,9 @@ class LabelData(object):
 
     def __populate__(self):
 
+        if self.features is None or self.images is None:
+            return
+
         if self.feature_type == 'label_array':
             # verify that the label array and input image are the same size
             if self.features.shape != self.image[0, :, :].shape:
@@ -363,6 +390,47 @@ class LabelData(object):
             self.data = [LabelPolygon(geom, i, self.image) for i, geom in enumerate(self.features) if
                          geom.intersects(self.image.asShape())]
             self.n_features = len(self.data)
+
+    def to_geojson(self, filename):
+
+        out_features = [feat.__to_geojson__() for feat in self.features]
+        with open(filename, 'w') as f:
+            f.write(json.dumps(out_features))
+
+    def from_geojson(self, filename):
+        with open(filename, 'r') as f:
+            in_features = json.loads(f.read())
+
+        catids = list(set([feat['properties']['catalog_id'] for feat in features]))
+        if len(catids) > 0:
+            raise ValueError("Input geojson references multiple catalog_ids")
+        else:
+            catid = catids[0]
+
+        bboxes = list(set([feat['properties']['bbox'] for feat in features]))
+        if len(bboxes) > 0:
+            raise ValueError("Input geojson references multiple bboxes")
+        else:
+            bbox = bboxes[0]
+
+        options_list = list(set([feat['properties']['img_options'] for feat in features]))
+        if len(options_list) > 0:
+            raise ValueError("Input geojson references multiple img_options")
+        else:
+            options = options_list[0]
+
+        self.image = CatalogImage(catid, bbox=bbox, **options)
+        self.__validate_image__()
+
+        for feat in in_features:
+            geom = shape(feat['geometry'])
+            self.features.append(geom)
+            label_polygon = LabelPolygon(geom, feat['id'], self.image)
+            label_polygon.label_value = feat['label_value']
+            self.data.append(label_polygon)
+        self.n_features = len(self.data)
+        self.__validate_features__()
+        self.index = 0
 
 
 class LabelWidget(object):
