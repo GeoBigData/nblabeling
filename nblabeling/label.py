@@ -473,7 +473,7 @@ class LabelWidget(object):
     def __back__(self, b):
 
         # decrement the tally
-        self.tally += 1
+        self.tally -= 1
 
         # change the feature label back to none
         previous_segment = self.label_data[self.tally]
