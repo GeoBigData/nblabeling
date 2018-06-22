@@ -77,7 +77,7 @@ class LabelSegment(object):
 
         row_start, row_stop, col_start, col_stop = self.buffered_bbox(pixel_buffer)
 
-        return self.image.rgb(blm=True)[row_start:row_stop, col_start:col_stop]
+        return self.image.rgb(blm=blm)[row_start:row_stop, col_start:col_stop]
 
     def pan(self, pixel_buffer=50, equalize_histogram=True):
 
@@ -366,7 +366,8 @@ class LabelData(object):
 
 
 class LabelWidget(object):
-    def __init__(self, text="Is this a feature of interest?", figsize=(20, 20), shuffled=False, show_src_img=False):
+    def __init__(self, text="Is this a feature of interest?", figsize=(20, 20), shuffled=False, show_src_img=False,
+                 pixel_buffer=50):
 
         self.text = text
         self.figsize = figsize
@@ -375,6 +376,7 @@ class LabelWidget(object):
         self.results = []
         self.shuffled = shuffled
         self.show_src_img = show_src_img
+        self.pixel_buffer = pixel_buffer
 
         self.__create_vote_buttons__()
         self.buttons = self.__add_button_callback__(self.__catch_vote_and_advance__)
@@ -423,10 +425,10 @@ class LabelWidget(object):
     def __display_feature__(self, feature):
         sp = plt.figure(figsize=self.figsize)
         if self.show_src_img is True:
-            self.__plot_array__(feature.mark_boundaries(), (1, 2, 1), title=self.text)
-            self.__plot_array__(feature.rgb(), (1, 2, 2), title='Source Image')
+            self.__plot_array__(feature.mark_boundaries(pixel_buffer=self.pixel_buffer), (1, 2, 1), title=self.text)
+            self.__plot_array__(feature.rgb(pixel_buffer=self.pixel_buffer), (1, 2, 2), title='Source Image')
         else:
-            self.__plot_array__(feature.mark_boundaries(), (1, 1, 1), title=self.text)
+            self.__plot_array__(feature.mark_boundaries(pixel_buffer=self.pixel_buffer), (1, 1, 1), title=self.text)
 
         _ = plt.plot()
         status_msg = "Labeled {tally} out of {total} features.".format(tally=self.tally,
