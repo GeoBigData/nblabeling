@@ -388,6 +388,14 @@ class LabelWidget(object):
             else:
                 _label_data = label_data
             self.label_data.extend(_label_data)
+            # find out how many have been previously labeled
+            previously_labeled = [d for d in self.label_data if d.label_value is not None]
+            self.tally = len(previously_labeled)
+            # split the data between the labeled and unlabeled
+            unlabeled = [d for d in self.label_data if d.label_value is None]
+            # reorder the data so that the previously labeled are at the beginning
+            reordered = previously_labeled + unlabeled
+            self.label_data = reordered
         else:
             raise TypeError("label_data is not an instance of LabelData")
 
@@ -401,7 +409,7 @@ class LabelWidget(object):
     def initialize_voting(self):
 
         display.clear_output(wait=True)
-        feature = self.label_data[0]
+        feature = self.label_data[self.tally]
         self.__display_feature__(feature)
         display.display(self.buttons)
 
@@ -440,10 +448,11 @@ class LabelWidget(object):
 
         # record the vote to the existing feature
         vote = self.convert_response_to_binary(b.description)
-        self.results.append(vote)
-        self.tally = len(self.results)
-        current_segment = self.label_data[self.tally - 1]
+        current_segment = self.label_data[self.tally]
         current_segment.set_label_value(vote)
+
+        # increment the tally
+        self.tally += 1
 
         # exit if no features remain
         if self.tally == len(self.label_data):
