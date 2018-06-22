@@ -141,7 +141,7 @@ class LabelSegment(object):
         d = {'geometry': self.__to_polygon__().__geo_interface__,
              'properties': {'catalog_id': self.catid,
                             'bbox': self.image.bounds,
-                            'label_value': self.label_value
+                            'label_value': self.label_value,
                             'id': self.id,
                             'img_options': dict(self.image.options)}
              }
