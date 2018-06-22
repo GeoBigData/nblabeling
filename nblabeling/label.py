@@ -426,7 +426,7 @@ class LabelData(object):
 
     def to_geojson(self, filename):
 
-        out_features = [feat.__to_geojson__() for feat in self.features]
+        out_features = [feat.__to_geojson__() for feat in self.data]
         with open(filename, 'w') as f:
             f.write(json.dumps(out_features))
 
