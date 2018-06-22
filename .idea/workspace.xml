@@ -27,8 +27,8 @@
       <file leaf-file-name="label.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nblabeling/label.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="112">
-              <caret line="42" column="26" lean-forward="false" selection-start-line="42" selection-start-column="4" selection-end-line="42" selection-end-column="26" />
+            <state relative-caret-position="218">
+              <caret line="112" column="90" lean-forward="false" selection-start-line="112" selection-start-column="90" selection-end-line="112" selection-end-column="90" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -62,6 +62,7 @@
       <find>rgb</find>
       <find>geo_inter</find>
       <find>__populate</find>
+      <find>to_geojson</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -267,8 +268,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/nblabeling/label.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="42" column="26" lean-forward="false" selection-start-line="42" selection-start-column="4" selection-end-line="42" selection-end-column="26" />
+        <state relative-caret-position="218">
+          <caret line="112" column="90" lean-forward="false" selection-start-line="112" selection-start-column="90" selection-end-line="112" selection-end-column="90" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
