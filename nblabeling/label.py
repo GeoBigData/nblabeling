@@ -470,6 +470,7 @@ class LabelData(object):
         self.__validate_image__()
 
         self.features = []
+        self.data = []
         for feat in in_features:
             geom = shape(feat['geometry'])
             self.features.append(geom)
