@@ -469,6 +469,7 @@ class LabelData(object):
         self.image = CatalogImage(catid, bbox=bbox, **options)
         self.__validate_image__()
 
+        self.features = []
         for feat in in_features:
             geom = shape(feat['geometry'])
             self.features.append(geom)
