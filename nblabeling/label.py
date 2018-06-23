@@ -473,8 +473,8 @@ class LabelData(object):
         for feat in in_features:
             geom = shape(feat['geometry'])
             self.features.append(geom)
-            label_polygon = LabelPolygon(geom, feat['id'], self.image)
-            label_polygon.label_value = feat['label_value']
+            label_polygon = LabelPolygon(geom, feat['properties']['id'], self.image)
+            label_polygon.label_value = feat['properties']['label_value']
             self.data.append(label_polygon)
         self.n_features = len(self.data)
         self.__validate_features__()
