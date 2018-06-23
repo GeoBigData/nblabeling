@@ -178,7 +178,8 @@ class LabelSegment(object):
                             'bbox': self.image.bounds,
                             'label_value': self.label_value,
                             'id': self.id,
-                            'img_options': dict(self.image.options)}
+                            'img_options': dict(self.image.options)},
+             'type': 'Feature'
              }
 
         return d
@@ -428,28 +429,39 @@ class LabelData(object):
 
     def to_geojson(self, filename):
 
-        out_features = [feat.__as_geojson__() for feat in self.data]
+        proj = self.image.options['proj']
+        if 'epsg' not in proj:
+            raise ValueError("self.image has unsupported projection (non-epsg) for outputting geojson")
+        epsg = proj.split(':')[1]
+        crs = "urn:ogc:def:crs:EPSG::{}".format(epsg)
+        out = {"type": "FeatureCollection",
+               "name": "LabelData",
+               "crs": {"type":"name", "properties": { "name": crs}},
+               "features": [feat.__as_geojson__() for feat in self.data]}
+
         with open(filename, 'w') as f:
-            f.write(json.dumps(out_features))
+            f.write(json.dumps(out))
 
     def from_geojson(self, filename):
         with open(filename, 'r') as f:
-            in_features = json.loads(f.read())
+            in_gj = json.loads(f.read())
+        in_features = in_gj['features']
 
-        catids = list(pd.unique([feat['properties']['catalog_id'] for feat in in_features]))
+        catids = list(set([feat['properties']['catalog_id'] for feat in in_features]))
         if len(catids) > 1:
             raise ValueError("Input geojson references multiple catalog_ids")
         else:
             catid = catids[0]
 
-        bboxes = list(pd.unique([feat['properties']['bbox'] for feat in in_features]))
+        bboxes = list(set([tuple(feat['properties']['bbox']) for feat in in_features]))
         if len(bboxes) > 1:
             raise ValueError("Input geojson references multiple bboxes")
         else:
             bbox = bboxes[0]
 
-        options_list = list(pd.unique([feat['properties']['img_options'] for feat in in_features]))
-        if len(options_list) > 1:
+        options_list = [feat['properties']['img_options'] for feat in in_features]
+        options_list_unique = list(set([tuple(sorted(zip(o.keys(), o.values()))) for o in options_list]))
+        if len(options_list_unique) > 1:
             raise ValueError("Input geojson references multiple img_options")
         else:
             options = options_list[0]
