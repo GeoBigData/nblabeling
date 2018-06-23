@@ -430,8 +430,8 @@ class LabelData(object):
     def to_geojson(self, filename):
 
         proj = self.image.options['proj']
-        if 'epsg' not in proj:
-            raise ValueError("self.image has unsupported projection (non-epsg) for outputting geojson")
+        if 'EPSG' not in proj:
+            raise ValueError("self.image has unsupported projection (non-EPSG) for outputting geojson")
         epsg = proj.split(':')[1]
         crs = "urn:ogc:def:crs:EPSG::{}".format(epsg)
         out = {"type": "FeatureCollection",
