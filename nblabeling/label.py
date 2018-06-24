@@ -313,7 +313,6 @@ class LabelData(object):
         if type(self.description) != str:
             raise TypeError("Input label must be of type string")
 
-
     def __validate_data__(self):
 
         if self.data is None:
@@ -323,9 +322,6 @@ class LabelData(object):
         if type(self.data) == list:
             is_label_segment = []
             is_label_polygon = []
-            catids = []
-            bboxes = []
-            img_options = []
             for d in self.data:
                 is_label_segment.append(isinstance(d, LabelSegment))
                 is_label_polygon.append(isinstance(d, LabelPolygon))
@@ -352,8 +348,6 @@ class LabelData(object):
 
         else:
             raise ValueError("Input data must be a list comprised of all LabelSegments or all LabelPolygons")
-
-
 
     def __chips__(self, chip_shape=(256, 256), chip_offset_rows=0, chip_offset_cols=0):
 

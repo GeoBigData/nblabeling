@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f8ed7056-3777-40bd-b0a6-1e17bdea890c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nblabeling/label.py" afterPath="$PROJECT_DIR$/nblabeling/label.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,8 +27,8 @@
       <file leaf-file-name="label.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nblabeling/label.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="348" column="50" lean-forward="false" selection-start-line="348" selection-start-column="50" selection-end-line="348" selection-end-column="50" />
+            <state relative-caret-position="143">
+              <caret line="315" column="32" lean-forward="true" selection-start-line="315" selection-start-column="32" selection-end-line="315" selection-end-column="32" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -68,6 +67,7 @@
       <find>catids =</find>
       <find>has</find>
       <find>as_geojson</find>
+      <find>__validate_data__</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -336,8 +336,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/nblabeling/label.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="348" column="50" lean-forward="false" selection-start-line="348" selection-start-column="50" selection-end-line="348" selection-end-column="50" />
+        <state relative-caret-position="143">
+          <caret line="315" column="32" lean-forward="true" selection-start-line="315" selection-start-column="32" selection-end-line="315" selection-end-column="32" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
