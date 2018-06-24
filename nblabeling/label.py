@@ -333,7 +333,7 @@ class LabelData(object):
             else:
                 raise ValueError("Input data must be a list comprised of all LabelSegments or all LabelPolygons")
             # check images are all the same
-            catids = list(set([d.image.catid for d in self.data]))
+            catids = list(set([d.image.cat_id for d in self.data]))
             bboxes = list(set([tuple(d.image.bounds) for d in self.data]))
             options_list = [d.image.options for d in self.data]
             options_list_unique = list(set([tuple(sorted(zip(o.keys(), o.values()))) for o in options_list]))
