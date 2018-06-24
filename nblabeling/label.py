@@ -228,7 +228,7 @@ class LabelPolygon(LabelSegment):
 
 
 class LabelData(object):
-    def __init__(self, features=None, image=None, description=None):
+    def __init__(self, features=None, image=None, description=None, data=None):
 
         self.features = features
         self.image = image
@@ -237,6 +237,7 @@ class LabelData(object):
         self.__validate_features__()
         self.__validate_image__()
         self.__validate_description__()
+        self.__validate_data__()
 
         self.__populate__()
         self.index = 0
@@ -311,6 +312,48 @@ class LabelData(object):
 
         if type(self.description) != str:
             raise TypeError("Input label must be of type string")
+
+
+    def __validate_data__(self):
+
+        if self.data is None:
+            return
+
+        # validate that features is of the correct type
+        if type(self.data) == list:
+            is_label_segment = []
+            is_label_polygon = []
+            catids = []
+            bboxes = []
+            img_options = []
+            for d in self.data:
+                is_label_segment.append(isinstance(d, LabelSegment))
+                is_label_polygon.append(isinstance(d, LabelPolygon))
+            if np.all(is_label_segment):
+                self.feature_type = 'label_array'
+            elif np.all(is_label_polygon):
+                self.feature_type = 'polygons'
+            else:
+                raise ValueError("Input data must be a list comprised of all LabelSegments or all LabelPolygons")
+            # check images are all the same
+            catids = list(set([d.image.catid for d in self.data]))
+            bboxes = list(set([tuple(d.image.bounds) for d in self.data]))
+            options_list = [d.image.options for d in self.data]
+            options_list_unique = list(set([tuple(sorted(zip(o.keys(), o.values()))) for o in options_list]))
+            if len(catids) > 1:
+                raise ValueError("Multiple image CATIDs specified in input list")
+            if len(bboxes) > 1:
+                raise ValueError("Multiple image bboxes specified in input list")
+            if len(options_list_unique) > 1:
+                raise ValueError("Multiple image options specified in input list")
+            # if all tests passed, populate final fields
+            self.n_features = len(self.data)
+            self.image = self.data[0].image
+
+        else:
+            raise ValueError("Input data must be a list comprised of all LabelSegments or all LabelPolygons")
+
+
 
     def __chips__(self, chip_shape=(256, 256), chip_offset_rows=0, chip_offset_cols=0):
 
