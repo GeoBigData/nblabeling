@@ -233,6 +233,7 @@ class LabelData(object):
         self.features = features
         self.image = image
         self.description = description
+        self.data = data
 
         self.__validate_features__()
         self.__validate_image__()
