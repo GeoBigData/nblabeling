@@ -207,8 +207,9 @@ class LabelPolygon(LabelSegment):
         self.regionprops = measure.regionprops(self.segmented_image)[0]
 
     def __validate_raw__(self):
-        if type(self.geom) != shapely.geometry.polygon.Polygon:
-            raise TypeError("geom is not an instance of shapely.geometry.polygon.Polygon")
+        if type(self.geom) not in (shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon):
+            err = "geom is not an instance of shapely.geometry.polygon.Polygon or shapely.geometry.multipolygon.MultiPolygon"
+            raise TypeError(err)
 
     def __to_segments__(self):
 
