@@ -12,6 +12,7 @@ import json
 import os
 from gbdxtools import CatalogImage
 import pandas as pd
+from shapely.ops import cascaded_union
 
 
 def plot_array(array, subplot_ijk, title="", font_size=18, cmap=None):
@@ -164,7 +165,7 @@ class LabelSegment(object):
                                             mask=segment != 0,
                                             transform=self.image.affine)
         # Extract out the individual polygons, fixing any invald geometries using buffer(0)
-        polygon = [shape(g).buffer(0) for g, v in polygon_generator][0]
+        polygon = cascaded_union([shape(g).buffer(0) for g, v in polygon_generator])
 
         return polygon
 
