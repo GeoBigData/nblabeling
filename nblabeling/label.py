@@ -278,7 +278,8 @@ class LabelData(object):
         is_polygon_list = False
         is_label_array = False
         if type(self.features) == list:
-            if np.all([type(f) == shapely.geometry.polygon.Polygon for f in self.features]):
+            if np.all([type(f) in (shapely.geometry.polygon.Polygon, shapely.geometry.multipolygon.MultiPolygon)
+                       for f in self.features]):
                 is_polygon_list = True
         elif type(self.features) == np.ndarray:
             if self.features.dtype == np.dtype('int'):
