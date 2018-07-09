@@ -1,4 +1,4 @@
-nbfirerisk
+nblabeling
 =========
 
-Python package containing functions and classes for the fire risk GBDX Notebook.
+Python package containing functions and classes for the image labeling GBDX Notebook.
