@@ -112,8 +112,11 @@ class LabelSegment(object):
     def rgb(self, pixel_buffer=50, blm=True):
 
         row_start, row_stop, col_start, col_stop = self.buffered_bbox(pixel_buffer)
-
-        return self.image.base_layer_match(blm=blm)[row_start:row_stop, col_start:col_stop]
+        
+        if blm:
+            return self.image.rgb(histogram ='match', blm_source='browse')[row_start:row_stop, col_start:col_stop]
+        else: 
+            return self.image.rgb()[row_start:row_stop, col_start:col_stop]
 
     def pan(self, pixel_buffer=50, equalize_histogram=True):
 
@@ -507,7 +510,7 @@ class LabelData(object):
         else:
             options = options_list[0]
 
-        self.image = CatalogImage(catid, bbox=bbox, **options)
+        self.image = CatalogImage(catid, bbox=bbox, dra=True, **options)
         self.__validate_image__()
 
         self.features = []
